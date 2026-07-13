@@ -1,15 +1,25 @@
-import { Router } from "express";
+import { Router } from 'express';
+import { db } from '../utils/db.js';
 
 const productRouter = Router();
 
-productRouter.get("/", (req, res) => {});
+productRouter.get('/', (req, res) => {});
 
-productRouter.get("/:id", (req, res) => {});
+productRouter.get('/:id', (req, res) => {});
 
-productRouter.post("/", (req, res) => {});
+productRouter.post('/', async (req, res) => {
+  const collection = db.collection('products');
 
-productRouter.put("/:id", (req, res) => {});
+  const productData = { ...req.body };
+  const products = await collection.insertOne(productData);
 
-productRouter.delete("/:id", (req, res) => {});
+  return res.json({
+    message: 'Product has been created successfully',
+  });
+});
+
+productRouter.put('/:id', (req, res) => {});
+
+productRouter.delete('/:id', (req, res) => {});
 
 export default productRouter;
