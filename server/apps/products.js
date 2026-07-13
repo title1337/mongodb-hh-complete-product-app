@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { db } from '../utils/db.js';
+import { ObjectId } from 'mongodb';
 
 const productRouter = Router();
 
@@ -26,7 +27,25 @@ productRouter.post('/', async (req, res) => {
   });
 });
 
-productRouter.put('/:id', (req, res) => {});
+productRouter.put('/:id', async (req, res) => {
+  const collection = db.collection('products');
+
+  const productId = new ObjectId(req.params.id);
+
+  const newProductData = { ...req.body };
+  await collection.updateOne(
+    {
+      _id: productId,
+    },
+    {
+      $set: newProductData,
+    },
+  );
+
+  return res.json({
+    message: 'Product has been updated successfully',
+  });
+});
 
 productRouter.delete('/:id', (req, res) => {});
 
