@@ -42,13 +42,14 @@ productRouter.put('/:id', async (req, res) => {
   const productId = new ObjectId(req.params.id);
 
   const newProductData = { ...req.body };
+  const updatedAt = new Date();
+
   await collection.updateOne(
     {
       _id: productId,
     },
     {
-      $set: newProductData,
-      updated_at: new Date(),
+      $set: { ...newProductData, updated_at: updatedAt },
     },
   );
 
