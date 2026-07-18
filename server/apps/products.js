@@ -48,6 +48,7 @@ productRouter.put('/:id', async (req, res) => {
     },
     {
       $set: newProductData,
+      updated_at: new Date(),
     },
   );
 
