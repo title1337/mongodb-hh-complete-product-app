@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { db } from '../utils/db.js';
 import { ObjectId } from 'mongodb';
+import { validateProduct } from '../middlewares/validateProduct.js';
 
 const productRouter = Router();
 
@@ -25,7 +26,7 @@ productRouter.get('/:id', async (req, res) => {
   });
 });
 
-productRouter.post('/', async (req, res) => {
+productRouter.post('/', validateProduct, async (req, res) => {
   const collection = db.collection('products');
 
   const productData = { ...req.body };
@@ -36,7 +37,7 @@ productRouter.post('/', async (req, res) => {
   });
 });
 
-productRouter.put('/:id', async (req, res) => {
+productRouter.put('/:id', validateProduct, async (req, res) => {
   const collection = db.collection('products');
 
   const productId = new ObjectId(req.params.id);
